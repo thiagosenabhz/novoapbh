@@ -5,30 +5,17 @@ export type Property = {
   city: string;
   neighborhood: string;
   address: string;
-
-  // Valores antigos (opcionais para fallback)
-  bedrooms?: number;
-  bathrooms?: number;
-  parking?: number;
-
-  // NOVO: faixas exibidas na UI
-  bedroomsMin?: number;
-  bedroomsMax?: number;
-  bathroomsMin?: number;
-  bathroomsMax?: number;
-  parkingMin?: number;
-  parkingMax?: number;
-
-  // Área já era faixa
+  bedrooms: number;
+  bathrooms: number;
+  parking: number; // 0 = não mostra vagas
   areaMin: number;
   areaMax: number;
-
   priceFrom: number;
   soldPercent: number;
-  images: string[];
+  images: string[]; // caminhos relativos a /public
   plans: { label: string; image: string; pdf?: string }[];
   amenities: string[];
-  updatedAt: string;
+  updatedAt: string; // ISO yyyy-mm-dd
 };
 
 export const PROPERTIES: Property[] = [
@@ -38,26 +25,16 @@ export const PROPERTIES: Property[] = [
     city: "Belo Horizonte",
     neighborhood: "Pampulha",
     address: "Rua Guapiara, 123 – Pampulha, BH",
-
-    // FAIXAS (iguais à sua referência)
-    bedroomsMin: 1,
-    bedroomsMax: 3,
-    bathroomsMin: 1,
-    bathroomsMax: 2,
-    parkingMin: 1,
-    parkingMax: 2,
-    areaMin: 55,
-    areaMax: 120,
-
-    // Se quiser manter os pontuais para outros lugares, ok
     bedrooms: 2,
     bathrooms: 2,
     parking: 1,
-
+    areaMin: 62,
+    areaMax: 78,
     priceFrom: 499900,
     soldPercent: 72,
-    images: ["/images/fachada1.jpg"],
-    plans: [{ label: "Planta 2Q", image: "/images/planta_2q.jpg", pdf: "#" }],
+    // ATENÇÃO: nome exatamente como está em /public/images
+    images: ["/images/Fachada1.jpg"],
+    plans: [{ label: "Planta 2Q", image: "/images/01Porcaro-BeEasy-104.jpg", pdf: "#" }],
     amenities: ["Piscina", "Coworking", "Pet place", "Playground"],
     updatedAt: "2025-09-01",
   },
