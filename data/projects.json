@@ -1,0 +1,267 @@
+{
+  "projects": [
+    {
+      "slug": "vivence-lagoa-2q",
+      "visible": true,
+      "preLaunch": false,
+      "soldPercent": 76,
+      "name": "Vivence Lagoa",
+      "city": "Belo Horizonte",
+      "neighborhood": "Santa Amélia",
+      "types": {
+        "studio": false,
+        "q1": true,
+        "q2": true,
+        "q3": true,
+        "privativa": false,
+        "cobertura": false
+      },
+      "bedrooms": [
+        1,
+        3
+      ],
+      "bathrooms": [
+        1,
+        2
+      ],
+      "parking": [
+        1,
+        2
+      ],
+      "areaM2": [
+        55,
+        119
+      ],
+      "priceFrom": 499900,
+      "conditionNote": "Fluxo de pagamento personalizado.",
+      "amenities": [
+        "Salão de festas",
+        "Solarium",
+        "Piscina adulto",
+        "Piscina infantil",
+        "Espaço de convivência",
+        "Playground",
+        "Academia",
+        "Pet Place"
+      ],
+      "cover": {
+        "src": "/images/vivence-lagoa/fachada.jpg",
+        "alt": "Fachada do Vivence Lagoa"
+      },
+      "images": [
+        {
+          "src": "/images/vivence-lagoa/fachada.jpg",
+          "alt": "Fachada"
+        },
+        {
+          "src": "/images/vivence-lagoa/001.jpg",
+          "alt": "Área 001"
+        },
+        {
+          "src": "/images/vivence-lagoa/002.jpg",
+          "alt": "Área 002"
+        },
+        {
+          "src": "/images/vivence-lagoa/003.jpg",
+          "alt": "Área 003"
+        },
+        {
+          "src": "/images/vivence-lagoa/004.jpg",
+          "alt": "Área 004"
+        },
+        {
+          "src": "/images/vivence-lagoa/005.jpg",
+          "alt": "Área 005"
+        },
+        {
+          "src": "/images/vivence-lagoa/006.jpg",
+          "alt": "Área 006"
+        }
+      ]
+    },
+    {
+      "slug": "reserva-dos-buritis",
+      "visible": true,
+      "preLaunch": false,
+      "soldPercent": 96,
+      "name": "Reserva dos Buritis",
+      "city": "Belo Horizonte",
+      "neighborhood": "Palmeiras",
+      "types": {
+        "studio": false,
+        "q1": true,
+        "q2": true,
+        "q3": true,
+        "privativa": true,
+        "cobertura": false
+      },
+      "bedrooms": [
+        1,
+        3
+      ],
+      "bathrooms": [
+        1,
+        2
+      ],
+      "parking": [
+        1,
+        2
+      ],
+      "areaM2": [
+        55,
+        119
+      ],
+      "priceFrom": 410000,
+      "conditionNote": "Fluxo de pagamento personalizado.",
+      "amenities": [
+        "Salão de festas",
+        "Bicicletário",
+        "Praça",
+        "Playground",
+        "Pet Place",
+        "Ginástica descoberta",
+        "Churrasqueira",
+        "Piscina adulto",
+        "Piscina infantil",
+        "Solarium",
+        "SPA",
+        "Quadra infantil",
+        "Quadra"
+      ],
+      "cover": {
+        "src": "/images/reserva-dos-buritis/fachada.jpg",
+        "alt": "Fachada do Reserva dos Buritis"
+      },
+      "images": [
+        {
+          "src": "/images/reserva-dos-buritis/fachada.jpg",
+          "alt": "Fachada"
+        },
+        {
+          "src": "/images/reserva-dos-buritis/001.jpg",
+          "alt": "Área 001"
+        },
+        {
+          "src": "/images/reserva-dos-buritis/002.jpg",
+          "alt": "Área 002"
+        },
+        {
+          "src": "/images/reserva-dos-buritis/003.jpg",
+          "alt": "Área 003"
+        },
+        {
+          "src": "/images/reserva-dos-buritis/004.jpg",
+          "alt": "Área 004"
+        },
+        {
+          "src": "/images/reserva-dos-buritis/005.jpg",
+          "alt": "Área 005"
+        },
+        {
+          "src": "/images/reserva-dos-buritis/006.jpg",
+          "alt": "Área 006"
+        },
+        {
+          "src": "/images/reserva-dos-buritis/007.jpg",
+          "alt": "Área 007"
+        },
+        {
+          "src": "/images/reserva-dos-buritis/008.jpg",
+          "alt": "Área 008"
+        },
+        {
+          "src": "/images/reserva-dos-buritis/009.jpg",
+          "alt": "Área 009"
+        }
+      ]
+    },
+    {
+      "slug": "eleva-residence",
+      "visible": true,
+      "preLaunch": false,
+      "soldPercent": 87,
+      "name": "Eleva Residence",
+      "city": "Belo Horizonte",
+      "neighborhood": "São Luiz",
+      "types": {
+        "studio": false,
+        "q1": true,
+        "q2": true,
+        "q3": true,
+        "privativa": true,
+        "cobertura": true
+      },
+      "bedrooms": [
+        1,
+        3
+      ],
+      "bathrooms": [
+        1,
+        3
+      ],
+      "parking": [
+        1,
+        3
+      ],
+      "areaM2": [
+        43.18,
+        165.44
+      ],
+      "priceFrom": 789000,
+      "conditionNote": "Condições especiais de lançamento.",
+      "amenities": [
+        "Piscina adulto",
+        "Piscina infantil",
+        "Academia",
+        "Coworking",
+        "Salão de festas"
+      ],
+      "cover": {
+        "src": "/images/eleva-residence/fachada.jpg",
+        "alt": "Fachada do Eleva Residence"
+      },
+      "images": [
+        {
+          "src": "/images/eleva-residence/fachada.jpg",
+          "alt": "Fachada"
+        },
+        {
+          "src": "/images/eleva-residence/001.jpg",
+          "alt": "Imagem"
+        },
+        {
+          "src": "/images/eleva-residence/002.jpg",
+          "alt": "Imagem"
+        },
+        {
+          "src": "/images/eleva-residence/003.jpg",
+          "alt": "Imagem"
+        },
+        {
+          "src": "/images/eleva-residence/004.jpg",
+          "alt": "Imagem"
+        },
+        {
+          "src": "/images/eleva-residence/005.jpg",
+          "alt": "Imagem"
+        },
+        {
+          "src": "/images/eleva-residence/006.jpg",
+          "alt": "Imagem"
+        },
+        {
+          "src": "/images/eleva-residence/007.jpg",
+          "alt": "Imagem"
+        },
+        {
+          "src": "/images/eleva-residence/008.jpg",
+          "alt": "Imagem"
+        },
+        {
+          "src": "/images/eleva-residence/009.jpg",
+          "alt": "Imagem"
+        }
+      ]
+    }
+  ]
+}

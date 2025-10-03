@@ -1,0 +1,67 @@
+"use client";
+
+import React from "react";
+
+type ImgProps = {
+  srcLocal: string;        // ex.: "/icons/whatsapp-white.svg"
+  width: number;
+  height: number;
+  alt?: string;
+  className?: string;      // opcional
+};
+
+/** SVG inline branco (fallback sem rede). */
+function WhatsappInlineWhite({
+  width,
+  height,
+  className,
+}: { width: number; height: number; className?: string }) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      className={className}
+    >
+      <path
+        fill="#fff"
+        d="M20.52 3.48A11.77 11.77 0 0 0 12.04 0C5.5 0 .3 5.2.3 11.65c0 2.05.54 4.05 1.58 5.82L0 24l6.7-1.74c1.7.93 3.62 1.42 5.57 1.42h.01c6.54 0 11.86-5.2 11.86-11.65 0-3.12-1.23-6.04-3.62-8.55ZM12.28 21.3a9.4 9.4 0 0 1-4.81-1.32l-.35-.2-3.98 1.03 1.06-3.88-.23-.4a9.35 9.35 0 0 1-1.4-4.86c0-5.17 4.27-9.38 9.52-9.38 2.54 0 4.93.98 6.72 2.75a9.28 9.28 0 0 1 2.77 6.63c0 5.17-4.27 9.38-9.52 9.38Zm5.49-7.01c-.3-.15-1.78-.88-2.06-.98-.27-.1-.47-.15-.67.15-.2.3-.77.98-.95 1.18-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.4-1.47-.89-.76-1.5-1.7-1.68-1.98-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.48-.5-.67-.5h-.57c-.2 0-.52.07-.8.37-.27.3-1.05 1.03-1.05 2.5s1.08 2.9 1.23 3.1c.15.2 2.12 3.22 5.15 4.51.72.31 1.28.49 1.72.63.72.23 1.37.2 1.88.12.57-.08 1.78-.73 2.03-1.43.25-.7.25-1.3.17-1.43-.07-.13-.27-.2-.57-.35Z"
+      />
+    </svg>
+  );
+}
+
+/**
+ * WaIcon:
+ * 1) Tenta exibir o arquivo local (branco).
+ * 2) Se falhar (F5/HMR/404), troca para o SVG inline branco (sem rede).
+ */
+export default function WaIcon({
+  srcLocal,
+  width,
+  height,
+  alt = "",
+  className,
+}: ImgProps) {
+  const [useInline, setUseInline] = React.useState(false);
+
+  if (useInline) {
+    return (
+      <WhatsappInlineWhite width={width} height={height} className={className} />
+    );
+  }
+
+  return (
+    <img
+      src={srcLocal}
+      width={width}
+      height={height}
+      alt={alt}
+      draggable={false}
+      className={className}
+      onError={() => setUseInline(true)}
+    />
+  );
+}
