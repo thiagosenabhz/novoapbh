@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import data from "@/data/projects.json"; // lê direto do JSON
+import data from "@/data/projects.json";
 
 export async function GET() {
   return NextResponse.json(data, { status: 200 });
