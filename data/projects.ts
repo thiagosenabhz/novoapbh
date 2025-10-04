@@ -35,11 +35,14 @@ export type Project = {
 
   // controle de visibilidade na frontpage
   visible: boolean;
+
+  // existe no JSON atual; mantemos opcional
+  preLaunch?: boolean;
 };
 
 // IMPORTA os dados do JSON e exporta tipado
-// (requer "resolveJsonModule": true no tsconfig.json – a maioria dos templates Next já tem).
-import data from "./projects.json";
+// (requer "resolveJsonModule": true no tsconfig.json – já está ativo).
+import raw from "./projects.json";
 
-export const projects = data as Project[];
+export const projects = (raw as { projects: Project[] }).projects;
 export default projects;
