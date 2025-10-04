@@ -1,6 +1,7 @@
 // C:\Users\Usuario\novoapbh\app\imovel\[slug]\page.tsx
 "use client";
 
+import LeadForm from "@/components/LeadForm";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
