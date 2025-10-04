@@ -1,9 +1,6 @@
-// app/api/projects/route.ts
-export const runtime = "edge";
-
 import { NextResponse } from "next/server";
-import { projects } from "@/data/projects";
+import data from "@/data/projects.json"; // lê direto do JSON
 
 export async function GET() {
-  return NextResponse.json(projects, { status: 200 });
+  return NextResponse.json(data, { status: 200 });
 }
