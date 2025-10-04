@@ -28,12 +28,15 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
 
   if (!p) return <div className="p-6">Carregando…</div>;
 
-  // TAG automática de estágio (usa datas se existirem; senão mostra "Pré-lançamento")
-  const stageTxt = stageLabel(calcStage(p.workStart, p.workDelivery));
+  // Tag automática de estágio (se tiver datas). Se não tiver, mostra “Pré-lançamento”.
+  const stageText =
+    p.workStart && p.workDelivery
+      ? stageLabel(calcStage(p.workStart, p.workDelivery))
+      : "Pré-lançamento";
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-6">
-      {/* Cabeçalho */}
+      {/* Título + voltar */}
       <div className="mb-4 flex items-center justify-between">
         <h1 className="text-3xl font-semibold text-slate-900">{p.name}</h1>
         <Link
@@ -44,9 +47,9 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
         </Link>
       </div>
 
-      {/* Hero + Coluna direita */}
+      {/* Capa + Painel lateral */}
       <div className="grid gap-6 md:grid-cols-[1fr_360px]">
-        {/* Imagem principal */}
+        {/* Capa */}
         <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white">
           <button
             type="button"
@@ -57,60 +60,57 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
             }}
           >
             <Image
-              src={p.cover?.src || "/images/placeholder.jpg"}
-              alt={p.cover?.alt || "Imagem de capa"}
+              src={p.cover.src}
+              alt={p.cover.alt}
               width={1600}
               height={900}
               className="h-auto w-full object-cover"
             />
 
-            {/* TAG automática de estágio */}
-            <div className="absolute left-3 top-3">
-              <div className="rounded-full bg-slate-800 px-3 py-1 text-sm font-semibold text-white shadow">
-                {stageTxt}
+            {/* TAG de estágio (automática) */}
+            <div className="absolute left-3 top-3 flex flex-col gap-2">
+              <div className="rounded-full bg-blue-600 px-3 py-1 text-sm font-semibold text-white shadow">
+                {stageText}
               </div>
+
+              {/* Se houver % vendido, mostramos abaixo */}
+              {typeof p.soldPercent === "number" && (
+                <div className="rounded-full bg-red-600 px-3 py-1 text-sm font-semibold text-white shadow">
+                  {p.soldPercent}% vendido
+                </div>
+              )}
             </div>
 
-            {/* Contador de fotos */}
-            <span className="absolute left-3 top-12 inline-flex items-center gap-2 rounded-full bg-white/90 px-3 py-1 text-sm font-medium text-slate-700 shadow">
-              Ver fotos ({Array.isArray(p.images) ? p.images.length : 0})
+            {/* contador de fotos */}
+            <span className="absolute left-3 top-14 inline-flex items-center gap-2 rounded-full bg-white/90 px-3 py-1 text-sm font-medium text-slate-700 shadow">
+              Ver fotos ({p.images.length})
             </span>
 
-            {/* dica */}
+            {/* dica de clique */}
             <span className="absolute bottom-3 right-3 rounded-md bg-black/50 px-2 py-1 text-xs text-white">
               Clique para ampliar
             </span>
           </button>
         </div>
 
-        {/* Coluna direita (condições + formulário) */}
+        {/* Painel lateral: preço + observações */}
         <div className="rounded-2xl border border-slate-200 bg-white p-6">
-          <div className="text-sm text-slate-500">Condições</div>
+          <div className="text-sm text-slate-500">Informações complementares</div>
           <div className="mt-2 text-slate-600">Unidades a partir de</div>
           <div className="mt-1 text-2xl font-bold tracking-tight text-blue-900 md:text-3xl">
             {brl(p.priceFrom)}
           </div>
 
-          {/* Observações / notas livres */}
-          {p.conditionNote ? (
-            <div className="mt-4 text-slate-600">{p.conditionNote}</div>
-          ) : null}
-
-          {/* Formulário de interesse (autofill) */}
-          <div className="mt-6 border-t border-slate-200 pt-6">
-            <LeadForm
-              projectName={p.name}
-              projectSlug={p.slug}
-              onSubmitted={() => {
-                // feedback simples por enquanto
-                alert("Recebemos seus dados. Obrigado!");
-              }}
-            />
-          </div>
+          {/* Texto livre (observações / entregas / vista / etc.) */}
+          {p.conditionNote && (
+            <div className="mt-4 whitespace-pre-wrap text-slate-700">
+              {p.conditionNote}
+            </div>
+          )}
         </div>
       </div>
 
-      {/* QUADROS: especificações + lazer */}
+      {/* Especificações + Lazer */}
       <div className="mt-6 grid gap-6 md:grid-cols-2">
         {/* Especificações */}
         <div className="rounded-2xl border border-slate-200 bg-white p-6">
@@ -118,32 +118,23 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
             Especificações
           </div>
           <div className="grid gap-4 md:grid-cols-2">
-            <Spec
-              label="Quartos"
-              value={`${p.bedrooms?.[0] ?? "-"} a ${p.bedrooms?.[1] ?? "-"}`}
-            />
+            <Spec label="Quartos" value={`${p.bedrooms[0]} a ${p.bedrooms[1]}`} />
             <Spec
               label="Banheiros"
-              value={`${p.bathrooms?.[0] ?? "-"} a ${p.bathrooms?.[1] ?? "-"}`}
+              value={`${p.bathrooms[0]} a ${p.bathrooms[1]}`}
             />
-            <Spec
-              label="Vagas"
-              value={`${p.parking?.[0] ?? "-"} a ${p.parking?.[1] ?? "-"}`}
-            />
-            <Spec
-              label="Área"
-              value={`${p.areaM2?.[0] ?? "-"} a ${p.areaM2?.[1] ?? "-"} m²`}
-            />
+            <Spec label="Vagas" value={`${p.parking[0]} a ${p.parking[1]}`} />
+            <Spec label="Área" value={`${p.areaM2[0]} a ${p.areaM2[1]} m²`} />
           </div>
         </div>
 
-        {/* Lazer e conveniência */}
+        {/* Lazer */}
         <div className="rounded-2xl border border-slate-200 bg-white p-6">
           <div className="mb-3 text-sm font-medium text-slate-500">
             Lazer e conveniência
           </div>
           <div className="flex flex-wrap gap-2">
-            {(Array.isArray(p.amenities) ? p.amenities : []).map((a: string) => (
+            {p.amenities?.map((a: string) => (
               <span
                 key={a}
                 className="inline-flex items-center rounded-full border border-slate-200 px-3 py-1 text-sm text-slate-700"
@@ -155,7 +146,27 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
         </div>
       </div>
 
-      {/* Galeria modal */}
+      {/* Formulário de captação */}
+      <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6">
+        <h2 className="mb-2 text-lg font-semibold text-slate-900">
+          Quero saber mais
+        </h2>
+        <p className="mb-4 text-sm text-slate-600">
+          Preencha seus dados e entraremos em contato com as opções disponíveis
+          para este empreendimento.
+        </p>
+
+        <LeadForm
+          projectName={p.name}
+          projectSlug={p.slug}
+          onSubmitted={() => {
+            // por enquanto, só um feedback simples na tela
+            alert("Cadastro recebido! Em breve entraremos em contato.");
+          }}
+        />
+      </div>
+
+      {/* Galeria em tela cheia */}
       {open && (
         <div className="fixed inset-0 z-[60] bg-black/80">
           <button
@@ -167,23 +178,13 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
 
           <button
             className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-2 text-slate-800 hover:bg-white"
-            onClick={() =>
-              setIdx((i) =>
-                Array.isArray(p.images)
-                  ? (i - 1 + p.images.length) % p.images.length
-                  : 0
-              )
-            }
+            onClick={() => setIdx((i) => (i - 1 + p.images.length) % p.images.length)}
           >
             ‹
           </button>
           <button
             className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-2 text-slate-800 hover:bg-white"
-            onClick={() =>
-              setIdx((i) =>
-                Array.isArray(p.images) ? (i + 1) % p.images.length : 0
-              )
-            }
+            onClick={() => setIdx((i) => (i + 1) % p.images.length)}
           >
             ›
           </button>
@@ -191,30 +192,17 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
           <div className="mx-auto mt-10 max-w-6xl px-4">
             <div className="relative aspect-[16/9] overflow-hidden rounded-xl bg-black">
               <Image
-                key={
-                  Array.isArray(p.images) && p.images[idx]
-                    ? p.images[idx].src
-                    : "fallback"
-                }
-                src={
-                  Array.isArray(p.images) && p.images[idx]
-                    ? p.images[idx].src
-                    : p.cover?.src || "/images/placeholder.jpg"
-                }
-                alt={
-                  Array.isArray(p.images) && p.images[idx]
-                    ? p.images[idx].alt
-                    : p.cover?.alt || "Imagem"
-                }
+                key={p.images[idx].src}
+                src={p.images[idx].src}
+                alt={p.images[idx].alt}
                 fill
                 className="object-contain"
                 sizes="(max-width: 1024px) 100vw, 1024px"
               />
             </div>
 
-            {/* Miniaturas */}
             <div className="mt-3 flex gap-2 overflow-x-auto rounded-md bg-white/10 p-2">
-              {(Array.isArray(p.images) ? p.images : []).map((g: any, i: number) => (
+              {p.images.map((g: any, i: number) => (
                 <button
                   key={g.src}
                   onClick={() => setIdx(i)}
