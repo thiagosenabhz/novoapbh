@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import data from "@/data/projects.json";
+import { projects } from "@/data/projects";
 
 export async function GET() {
-  return NextResponse.json(data, { status: 200 });
+  // A API passa a responder um ARRAY de Project, padronizando o consumo no front.
+  return NextResponse.json(projects, { status: 200 });
 }
