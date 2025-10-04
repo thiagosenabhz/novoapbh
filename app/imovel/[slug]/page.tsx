@@ -4,7 +4,6 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-
 import LeadForm from "@/components/LeadForm";
 import { brl } from "@/data/store";
 import { calcStage, stageLabel } from "@/utils/stage";
@@ -17,7 +16,6 @@ async function fetchProject(slug: string) {
 
 export default function ProjectPage({ params }: { params: { slug: string } }) {
   const { slug } = params;
-
   const [p, setP] = React.useState<any>(null);
   const [open, setOpen] = React.useState(false);
   const [idx, setIdx] = React.useState(0);
@@ -28,15 +26,15 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
 
   if (!p) return <div className="p-6">Carregando…</div>;
 
-  // Tag automática de estágio (se tiver datas). Se não tiver, mostra “Pré-lançamento”.
+  // TAG automática de estágio (usa datas se existirem; senão mostra “Pré-lançamento”)
   const stageText =
     p.workStart && p.workDelivery
       ? stageLabel(calcStage(p.workStart, p.workDelivery))
-      : "Pré-lançamento";
+      : "pré-lançamento";
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-6">
-      {/* Título + voltar */}
+      {/* Cabeçalho */}
       <div className="mb-4 flex items-center justify-between">
         <h1 className="text-3xl font-semibold text-slate-900">{p.name}</h1>
         <Link
@@ -47,9 +45,8 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
         </Link>
       </div>
 
-      {/* Capa + Painel lateral */}
+      {/* Hero com imagem + painel lateral */}
       <div className="grid gap-6 md:grid-cols-[1fr_360px]">
-        {/* Capa */}
         <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white">
           <button
             type="button"
@@ -67,74 +64,73 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
               className="h-auto w-full object-cover"
             />
 
-            {/* TAG de estágio (automática) */}
-            <div className="absolute left-3 top-3 flex flex-col gap-2">
-              <div className="rounded-full bg-blue-600 px-3 py-1 text-sm font-semibold text-white shadow">
-                {stageText}
-              </div>
-
-              {/* Se houver % vendido, mostramos abaixo */}
-              {typeof p.soldPercent === "number" && (
+            {/* TAG de estágio / vendido */}
+            <div className="absolute left-3 top-3">
+              {stageText === "entregue" ? (
+                <div className="rounded-full bg-emerald-600 px-3 py-1 text-sm font-semibold text-white shadow">
+                  Obra entregue
+                </div>
+              ) : p.soldPercent ? (
                 <div className="rounded-full bg-red-600 px-3 py-1 text-sm font-semibold text-white shadow">
                   {p.soldPercent}% vendido
+                </div>
+              ) : (
+                <div className="rounded-full bg-orange-500 px-3 py-1 text-sm font-semibold text-white shadow">
+                  {stageText.charAt(0).toUpperCase() + stageText.slice(1)}
                 </div>
               )}
             </div>
 
-            {/* contador de fotos */}
-            <span className="absolute left-3 top-14 inline-flex items-center gap-2 rounded-full bg-white/90 px-3 py-1 text-sm font-medium text-slate-700 shadow">
+            <span className="absolute left-3 top-12 inline-flex items-center gap-2 rounded-full bg-white/90 px-3 py-1 text-sm font-medium text-slate-700 shadow">
               Ver fotos ({p.images.length})
             </span>
-
-            {/* dica de clique */}
             <span className="absolute bottom-3 right-3 rounded-md bg-black/50 px-2 py-1 text-xs text-white">
               Clique para ampliar
             </span>
           </button>
         </div>
 
-        {/* Painel lateral: preço + observações */}
+        {/* Painel lateral (observações + preço) */}
         <div className="rounded-2xl border border-slate-200 bg-white p-6">
           <div className="text-sm text-slate-500">Informações complementares</div>
-          <div className="mt-2 text-slate-600">Unidades a partir de</div>
+          <div className="mt-2 text-slate-700 whitespace-pre-line">
+            {p.conditionNote || "Consulte condições de pagamento e disponibilidade."}
+          </div>
+
+          <div className="mt-5 text-slate-600">Unidades a partir de</div>
           <div className="mt-1 text-2xl font-bold tracking-tight text-blue-900 md:text-3xl">
             {brl(p.priceFrom)}
           </div>
 
-          {/* Texto livre (observações / entregas / vista / etc.) */}
-          {p.conditionNote && (
-            <div className="mt-4 whitespace-pre-wrap text-slate-700">
-              {p.conditionNote}
-            </div>
-          )}
+          <a
+            href="#contato"
+            className="mt-5 inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+          >
+            Quero saber mais
+          </a>
         </div>
       </div>
 
-      {/* Especificações + Lazer */}
+      {/* Especificações e Lazer */}
       <div className="mt-6 grid gap-6 md:grid-cols-2">
-        {/* Especificações */}
         <div className="rounded-2xl border border-slate-200 bg-white p-6">
           <div className="mb-3 text-center text-sm font-medium text-slate-500">
             Especificações
           </div>
           <div className="grid gap-4 md:grid-cols-2">
             <Spec label="Quartos" value={`${p.bedrooms[0]} a ${p.bedrooms[1]}`} />
-            <Spec
-              label="Banheiros"
-              value={`${p.bathrooms[0]} a ${p.bathrooms[1]}`}
-            />
+            <Spec label="Banheiros" value={`${p.bathrooms[0]} a ${p.bathrooms[1]}`} />
             <Spec label="Vagas" value={`${p.parking[0]} a ${p.parking[1]}`} />
             <Spec label="Área" value={`${p.areaM2[0]} a ${p.areaM2[1]} m²`} />
           </div>
         </div>
 
-        {/* Lazer */}
         <div className="rounded-2xl border border-slate-200 bg-white p-6">
           <div className="mb-3 text-sm font-medium text-slate-500">
             Lazer e conveniência
           </div>
           <div className="flex flex-wrap gap-2">
-            {p.amenities?.map((a: string) => (
+            {p.amenities.map((a: string) => (
               <span
                 key={a}
                 className="inline-flex items-center rounded-full border border-slate-200 px-3 py-1 text-sm text-slate-700"
@@ -146,27 +142,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
         </div>
       </div>
 
-      {/* Formulário de captação */}
-      <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6">
-        <h2 className="mb-2 text-lg font-semibold text-slate-900">
-          Quero saber mais
-        </h2>
-        <p className="mb-4 text-sm text-slate-600">
-          Preencha seus dados e entraremos em contato com as opções disponíveis
-          para este empreendimento.
-        </p>
-
-        <LeadForm
-          projectName={p.name}
-          projectSlug={p.slug}
-          onSubmitted={() => {
-            // por enquanto, só um feedback simples na tela
-            alert("Cadastro recebido! Em breve entraremos em contato.");
-          }}
-        />
-      </div>
-
-      {/* Galeria em tela cheia */}
+      {/* Galeria modal */}
       {open && (
         <div className="fixed inset-0 z-[60] bg-black/80">
           <button
@@ -175,7 +151,6 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
           >
             Fechar
           </button>
-
           <button
             className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-2 text-slate-800 hover:bg-white"
             onClick={() => setIdx((i) => (i - 1 + p.images.length) % p.images.length)}
@@ -200,16 +175,13 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
                 sizes="(max-width: 1024px) 100vw, 1024px"
               />
             </div>
-
             <div className="mt-3 flex gap-2 overflow-x-auto rounded-md bg-white/10 p-2">
               {p.images.map((g: any, i: number) => (
                 <button
                   key={g.src}
                   onClick={() => setIdx(i)}
                   className={`relative h-16 w-28 overflow-hidden rounded-md border ${
-                    i === idx
-                      ? "border-white"
-                      : "border-white/40 hover:border-white"
+                    i === idx ? "border-white" : "border-white/40 hover:border-white"
                   }`}
                 >
                   <Image src={g.src} alt={g.alt} fill className="object-cover" />
@@ -219,6 +191,25 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
           </div>
         </div>
       )}
+
+      {/* BLOCO DE CONTATO / LEADS */}
+      <div id="contato" className="mt-8 rounded-2xl border border-slate-200 bg-white p-6">
+        <h2 className="text-xl font-semibold text-slate-900">Quero saber mais</h2>
+        <p className="mt-1 text-slate-600">
+          Preencha seus dados e entraremos em contato com as unidades disponíveis.
+        </p>
+
+        <div className="mt-4">
+          <LeadForm
+            projectName={p.name}
+            projectSlug={p.slug}
+            onSubmitted={() => {
+              // simples feedback; depois podemos melhorar com toasts
+              alert("Recebemos seus dados! Em breve entraremos em contato.");
+            }}
+          />
+        </div>
+      </div>
     </div>
   );
 }
