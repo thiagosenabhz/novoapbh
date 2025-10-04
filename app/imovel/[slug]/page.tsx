@@ -19,46 +19,88 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
   const [open, setOpen] = React.useState(false);
   const [idx, setIdx] = React.useState(0);
 
-  React.useEffect(() => { fetchProject(slug).then(setP); }, [slug]);
+  React.useEffect(() => {
+    fetchProject(slug).then(setP);
+  }, [slug]);
+
   if (!p) return <div className="p-6">Carregando…</div>;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-6">
+      {/* Cabeçalho */}
       <div className="mb-4 flex items-center justify-between">
         <h1 className="text-3xl font-semibold text-slate-900">{p.name}</h1>
-        <Link href="/" className="rounded-lg border border-slate-300 px-4 py-2 text-sm hover:bg-slate-50">Voltar</Link>
+        <Link
+          href="/"
+          className="rounded-lg border border-slate-300 px-4 py-2 text-sm hover:bg-slate-50"
+        >
+          Voltar
+        </Link>
       </div>
 
+      {/* Hero + Observações */}
       <div className="grid gap-6 md:grid-cols-[1fr_360px]">
+        {/* HERO */}
         <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white">
-          <button type="button" className="group relative block w-full" onClick={() => { setOpen(true); setIdx(0); }}>
-            <Image src={p.cover.src} alt={p.cover.alt} width={1600} height={900} className="h-auto w-full object-cover" />
-            {/* faixa */}
+          <button
+            type="button"
+            className="group relative block w-full"
+            onClick={() => {
+              setOpen(true);
+              setIdx(0);
+            }}
+          >
+            <Image
+              src={p.cover.src}
+              alt={p.cover.alt}
+              width={1600}
+              height={900}
+              className="h-auto w-full object-cover"
+            />
+
+            {/* TAG de status / faixa */}
             <div className="absolute left-3 top-3">
               {p.preLaunch ? (
-                <div className="rounded-full bg-orange-500 px-3 py-1 text-sm font-semibold text-white shadow">Pré-lançamento</div>
+                <div className="rounded-full bg-orange-500 px-3 py-1 text-sm font-semibold text-white shadow">
+                  Pré-lançamento
+                </div>
               ) : (
-                <div className="rounded-full bg-red-600 px-3 py-1 text-sm font-semibold text-white shadow">{p.soldPercent}% vendido</div>
+                <div className="rounded-full bg-red-600 px-3 py-1 text-sm font-semibold text-white shadow">
+                  {p.soldPercent}% vendido
+                </div>
               )}
             </div>
+
+            {/* indicador de galeria */}
             <span className="absolute left-3 top-12 inline-flex items-center gap-2 rounded-full bg-white/90 px-3 py-1 text-sm font-medium text-slate-700 shadow">
               Ver fotos ({p.images.length})
             </span>
-            <span className="absolute bottom-3 right-3 rounded-md bg-black/50 px-2 py-1 text-xs text-white">Clique para ampliar</span>
+
+            {/* dica */}
+            <span className="absolute bottom-3 right-3 rounded-md bg-black/50 px-2 py-1 text-xs text-white">
+              Clique para ampliar
+            </span>
           </button>
         </div>
 
+        {/* Observações (mantendo “Unidades a partir de …” + complemento) */}
         <div className="rounded-2xl border border-slate-200 bg-white p-6">
-          <div className="text-sm text-slate-500">Condições</div>
+          <div className="text-sm text-slate-500">Observações</div>
           <div className="mt-2 text-slate-600">Unidades a partir de</div>
-          <div className="mt-1 text-2xl font-bold tracking-tight text-blue-900 md:text-3xl">{brl(p.priceFrom)}</div>
+          <div className="mt-1 text-2xl font-bold tracking-tight text-blue-900 md:text-3xl">
+            {brl(p.priceFrom)}
+          </div>
           <div className="mt-4 text-slate-600">{p.conditionNote}</div>
         </div>
       </div>
 
+      {/* ====== QUADROS LADO A LADO ====== */}
       <div className="mt-6 grid gap-6 md:grid-cols-2">
+        {/* Especificações */}
         <div className="rounded-2xl border border-slate-200 bg-white p-6">
-          <div className="mb-3 text-center text-sm font-medium text-slate-500">Especificações</div>
+          <div className="mb-3 text-center text-sm font-medium text-slate-500">
+            Especificações
+          </div>
           <div className="grid gap-4 md:grid-cols-2">
             <Spec label="Quartos" value={`${p.bedrooms[0]} a ${p.bedrooms[1]}`} />
             <Spec label="Banheiros" value={`${p.bathrooms[0]} a ${p.bathrooms[1]}`} />
@@ -67,30 +109,91 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
           </div>
         </div>
 
+        {/* Lazer & conveniência */}
         <div className="rounded-2xl border border-slate-200 bg-white p-6">
-          <div className="mb-3 text-sm font-medium text-slate-500">Lazer e conveniência</div>
+          <div className="mb-3 text-sm font-medium text-slate-500">
+            Lazer e conveniência
+          </div>
           <div className="flex flex-wrap gap-2">
             {p.amenities.map((a: string) => (
-              <span key={a} className="inline-flex items-center rounded-full border border-slate-200 px-3 py-1 text-sm text-slate-700">{a}</span>
+              <span
+                key={a}
+                className="inline-flex items-center rounded-full border border-slate-200 px-3 py-1 text-sm text-slate-700"
+              >
+                {a}
+              </span>
             ))}
           </div>
         </div>
       </div>
 
-      {/* Galeria */}
+      {/* ====== CONTATO / AGENDAR VISITA ====== */}
+      <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6">
+        <h2 className="mb-2 text-lg font-semibold text-slate-900">
+          Quer simular e agendar uma visita?
+        </h2>
+        <p className="mb-4 text-sm text-slate-600">
+          Preencha seus dados e entro em contato com opções conforme seu perfil.
+        </p>
+
+        <LeadForm
+          projectName={p.name}
+          projectSlug={slug}
+          onSubmitted={() => {
+            alert("Recebi seus dados! Em breve entro em contato.");
+          }}
+        />
+      </div>
+
+      {/* ====== MODAL / GALERIA ====== */}
       {open && (
         <div className="fixed inset-0 z-[60] bg-black/80">
-          <button onClick={() => setOpen(false)} className="absolute right-4 top-3 rounded-md bg-white/90 px-3 py-1 text-sm font-medium text-slate-800 hover:bg-white">Fechar</button>
-          <button className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-2 text-slate-800 hover:bg-white" onClick={() => setIdx((i) => (i - 1 + p.images.length) % p.images.length)}>‹</button>
-          <button className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-2 text-slate-800 hover:bg-white" onClick={() => setIdx((i) => (i + 1) % p.images.length)}>›</button>
+          <button
+            onClick={() => setOpen(false)}
+            className="absolute right-4 top-3 rounded-md bg-white/90 px-3 py-1 text-sm font-medium text-slate-800 hover:bg-white"
+          >
+            Fechar
+          </button>
+
+          <button
+            className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-2 text-slate-800 hover:bg-white"
+            onClick={() =>
+              setIdx((i) => (i - 1 + p.images.length) % p.images.length)
+            }
+          >
+            ‹
+          </button>
+
+          <button
+            className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-2 text-slate-800 hover:bg-white"
+            onClick={() => setIdx((i) => (i + 1) % p.images.length)}
+          >
+            ›
+          </button>
 
           <div className="mx-auto mt-10 max-w-6xl px-4">
             <div className="relative aspect-[16/9] overflow-hidden rounded-xl bg-black">
-              <Image key={p.images[idx].src} src={p.images[idx].src} alt={p.images[idx].alt} fill className="object-contain" sizes="(max-width: 1024px) 100vw, 1024px" />
+              <Image
+                key={p.images[idx].src}
+                src={p.images[idx].src}
+                alt={p.images[idx].alt}
+                fill
+                className="object-contain"
+                sizes="(max-width: 1024px) 100vw, 1024px"
+              />
             </div>
+
             <div className="mt-3 flex gap-2 overflow-x-auto rounded-md bg-white/10 p-2">
               {p.images.map((g: any, i: number) => (
-                <button key={g.src} onClick={() => setIdx(i)} className={`relative h-16 w-28 overflow-hidden rounded-md border ${i === idx ? "border-white" : "border-white/40 hover:border-white"}`}>
+                <button
+                  key={g.src}
+                  onClick={() => setIdx(i)}
+                  className={`relative h-16 w-28 overflow-hidden rounded-md border ${
+                    i === idx
+                      ? "border-white"
+                      : "border-white/40 hover:border-white"
+                  }`}
+                >
                   <Image src={g.src} alt={g.alt} fill className="object-cover" />
                 </button>
               ))}
